@@ -1,67 +1,89 @@
 package Pagamento;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Calendar;
+import java.util.Date;
+
 public class Cartao {
-	private int numero;
-	private Calendar validade;
-	private int codigoDeSeguranca;
-	private Conta conta;
-	private String bandeira;
 	
-	public Cartao(int numero, Calendar validade, int codigoDeSeguranca, Conta conta, String bandeira) {
+	private String numero;
+	private String anoVencimento;
+	private String mesVencimento;
+	private String codigoDeSeguranca;
+	private Conta conta;
+	private String[] bandeiraAceitas = {"Visa","MasterCard","Elo"};
+	private String bandeiraDigitadaUsuario;
+	private DateFormat df = new SimpleDateFormat("yyyyMMdd");
+	private Date vencimentoCartao;
+	private Date dataAtual;
+	
+	public Cartao(String numero, String anoVencimento, String mesVencimento, String codigoDeSeguranca, Conta conta,String bandeiraDigitadaUsuario) throws ParseException {
 		this.numero = numero;
-		this.validade = validade;
 		this.codigoDeSeguranca = codigoDeSeguranca;
 		this.conta = conta;
-		this.bandeira = bandeira;
+		this.bandeiraDigitadaUsuario = bandeiraDigitadaUsuario;
+		this.anoVencimento = anoVencimento;
+		this.mesVencimento = mesVencimento;
+		this.vencimentoCartao = df.parse(anoVencimento+mesVencimento+"01");
+		this.dataAtual = new Date();
+		
+		
 	}
 
-	public int getNumero() {
+	public String getNumero() {
 		return numero;
 	}
 
-	public Calendar getValidade() {
-		return validade;
-	}
-
-	public int getCodigoDeSeguranca() {
+	public String getCodigoDeSeguranca() {
 		return codigoDeSeguranca;
 	}
 
 	public Conta getConta() {
 		return conta;
 	}
-
-	public String getBandeira() {
-		return bandeira;
-	}
-
-	public void setBandeira(String bandeira) {
-		this.bandeira = bandeira;
+	
+	public String mostraDadosDoCartao() {
+		return numero.substring(0,4) + "-" + numero.substring(4,8) + "-xxxxxx";
 	}
 	
-	public boolean solicitaCompra(double valor){ 		//Método responsável por requisitar cobrança de passagem para classe conta
-		if(conta.getSaldo() <= valor) {
-			return true;
-		}
-		else {
+	public boolean cartaoValidoOuNao(){
+		 boolean verificaBandeira = false;
+		 
+		 //Percorre vetor de bandeiras aceitas
+		 for(int i = 0; i < bandeiraAceitas.length;i++) {
+			 if(bandeiraAceitas[i].equals(bandeiraDigitadaUsuario)) {
+				 verificaBandeira = true;
+			 }
+			 else {
+				 verificaBandeira = false;
+			 }
+		 }
+		 
+		if(verificaBandeira = false) {
+			System.out.println("Bandeira não aceita");
 			return false;
 		}
 		
-		
-	}
-	
-	public String mostraDadosDoCartao() {
-		return "";							//Esperar ter todos os atributos da classe conta para mostrar dados do cartao
-	}
-	
-	public boolean cartaoValidoOuNao(Cartao cartao){
-		 String numeroCartao = Integer.toString(numero);
-		 	if(numeroCartao.length() <= 17) {
-			 NumeroCartaoException numeroException = new NumeroCartaoException();  // Não existe cartão com mais de 17 digitos
-			 throw numeroException;
+		else if(numero.length() < 16 || numero.length() > 16) {
+		 	System.out.println("Número cartão inválido"); //As bandeiras que nosso sistema aceita os cartões só tem 16 digitos
 			 return false;
 		 }
-		 return true
+			
+		 else if(vencimentoCartao.before(dataAtual)) {
+			 System.out.println("Cartão vencido");
+			 return false;
+		 }
+		 
+		 
+		 else if(codigoDeSeguranca.length() > 3) {
+			 return false;								//Cartões no geral tem código de segurança menor do que 4 dígitos
+		 }
+		 
+		 else {
+			 return true;
+		 }
 	}
 	
 }
