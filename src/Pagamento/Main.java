@@ -7,7 +7,7 @@ import java.util.Date;
 
 public class Main {
 public static void main(String[] args) throws ParseException{
-		CartaoDeCredito cartao = new CartaoDeCredito("2458796354124569","2021","12","473",new ContaCorrente(100,5000),"Visa");
-		cartao.getConta().realizaCompra(1500);
+		CartaoDeCredito cartao = new CartaoDeCredito("5478963245987569","2019","01","479",new ContaCorrente(2000, 5000),"Visa");
+		cartao.getConta().realizaCompra(2000);
 	}
 }

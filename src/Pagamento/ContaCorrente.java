@@ -15,7 +15,7 @@ public class ContaCorrente extends Conta{
 	}
 
 	@Override
-	public boolean realizaCompra(double valor) {
+	public boolean realizaCompra(double valor) {	//Metodo responsável por cobrar a passagem
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Digite 1 para pagar no débito e 2 para pagar no crédito");
 		int opcao = sc.nextInt();
@@ -29,7 +29,7 @@ public class ContaCorrente extends Conta{
 				return true;
 			}
 			else {
-				System.out.println("Compra negada");
+				System.out.println("Compra negada. Limite indisponível");
 				return false;
 			}
 		}

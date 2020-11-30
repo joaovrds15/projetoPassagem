@@ -72,7 +72,7 @@ public class Cartao {
 		 }
 			
 		 else if(vencimentoCartao.before(dataAtual)) {
-			 System.out.println("Cartão vencido");
+			 System.out.println("Cartão vencido"); // Verifica se cartão está vencido ou não
 			 return false;
 		 }
 		 
