@@ -1,5 +1,5 @@
 package Pagamento;
-import java.text.DateFormat; // teste 1
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -13,11 +13,15 @@ public class Cartao {
 	private String mesVencimento;
 	private String codigoDeSeguranca;
 	private Conta conta;
-	private String[] bandeiraAceitas = {"Visa","MasterCard","Elo"};
+	private static String[] bandeiraAceitas = {"Visa","MasterCard","Elo"};
 	private String bandeiraDigitadaUsuario;
 	private DateFormat df = new SimpleDateFormat("yyyyMMdd");
 	private Date vencimentoCartao;
 	private Date dataAtual;
+	
+	public Cartao() {
+		
+	}
 	
 	public Cartao(String numero, String anoVencimento, String mesVencimento, String codigoDeSeguranca, Conta conta,String bandeiraDigitadaUsuario) throws ParseException {
 		this.numero = numero;
@@ -48,7 +52,7 @@ public class Cartao {
 		return numero.substring(0,4) + "-" + numero.substring(4,8) + "-xxxxxx";
 	}
 	
-	public boolean cartaoValidoOuNao(){
+	public boolean cartaoValidoOuNao(Cartao cartao){
 		 boolean verificaBandeira = false;
 		 
 		 //Percorre vetor de bandeiras aceitas
@@ -78,7 +82,8 @@ public class Cartao {
 		 
 		 
 		 else if(codigoDeSeguranca.length() > 3) {
-			 return false;								//Cartões no geral tem código de segurança menor do que 4 dígitos
+			 System.out.println("Código de segurança inválido");
+			 return false;											//Cartões no geral tem código de segurança menor do que 4 dígitos
 		 }
 		 
 		 else {
