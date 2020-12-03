@@ -34,11 +34,16 @@ public class Voo {
 		this.horario = horario;
 		geraAssentos();
 	}
-	public Voo(String origem, String destino, double valorPassagem, String horario) {
-		this(origem,destino,valorPassagem, null, horario);
-	}
 	public Voo(String origem, String destino, String data) {
 		this(origem,destino, 0, data, null);
+	}
+	public Voo(Voo obj) {
+		this(obj.getOrigem(),obj.getDestino(),obj.getValorPassagem(),obj.getData(),obj.getHorario());
+		this.assentos=obj.getAssentos();
+	}
+	public Voo() {
+		this(null,null,0,null,null);
+		this.assentos = null;
 	}
 	
 	
@@ -103,10 +108,15 @@ public class Voo {
 		return numAssentos;
 	}
 	
+	//metodos sobrecarregados para venda de assento
 	public void vendeAssentos(int numPoltrona) {
+		//vende um único assento, recebendo como parâmetro o número do mesmo
 		this.assentos[numPoltrona] = false;
 	}
 	public void vendeAssentos(int qtd, int numPoltronas[]) {
+		/**vende mais de um assento, recebendo como parâmetro o número de poltronas que serão vendidas 
+		 *e o número das mesmas no avião, através do vetor numPoltronas
+		 */
 		int i;
 		for(i=0;i<qtd;i++) {
 			if(numPoltronas[i]<1 || numPoltronas[i]>60) {
