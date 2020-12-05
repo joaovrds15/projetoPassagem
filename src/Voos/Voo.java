@@ -108,6 +108,23 @@ public class Voo {
 		return numAssentos;
 	}
 	
+	//método que retorna quais assentos estão disponíveis
+	public int[] quaisAssentosDisponiveis() {
+		int i;
+		int o = 0;
+		int quaisAssentos[] = new int[NUM_ASSENTOS];
+		
+		for(i=0;i<NUM_ASSENTOS;i++) {
+			if(this.assentos[i]) {
+				quaisAssentos[o] = i+1;
+				o++;
+			}
+				
+		}
+		
+		return quaisAssentos;
+	}
+	
 	//metodos sobrecarregados para venda de assento
 	public void vendeAssentos(int numPoltrona) {
 		//vende um único assento, recebendo como parâmetro o número do mesmo

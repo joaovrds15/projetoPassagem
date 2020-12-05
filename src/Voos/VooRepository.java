@@ -31,7 +31,7 @@ public class VooRepository {
 				adicionarVoo(objVoo);
 			}
 		}
-		return buscaVoo;
+		return this.voos.get(objVoo.hashCode());
 	}
 	
 	
@@ -41,7 +41,6 @@ public class VooRepository {
 		
 		try {
 			this.voos.put(create.criarVoo(objVoo).hashCode(), create.criarVoo(objVoo));
-			System.out.printf("\nNovo Voo cadastrado com sucesso.\n");
 		} catch (Exception e) {
 			System.out.printf("\nErro ao cadastrar novo Voo.\n");
 		}
